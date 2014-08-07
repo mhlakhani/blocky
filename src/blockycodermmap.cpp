@@ -1,6 +1,9 @@
-/* Copyright (c) 2014, Hasnain Lakhani.
-** All rights reserved.
-** Please see LICENSE for details.
+/*!
+    @file
+    @brief BlockyCoderMmap
+    @author Hasnain Lakhani
+    @date 2014
+    @copyright (c) 2014, see LICENSE for details
 */
 
 #include "blockycodermmap.h"
