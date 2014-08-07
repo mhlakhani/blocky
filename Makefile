@@ -24,6 +24,7 @@ INCLUDE_DIR=include
 SRC_DIR=src
 OBJ_DIR=obj
 BIN_DIR=bin
+DOC_DIR=doc
 
 LIBDEPS=$(patsubst %,$(INCLUDE_DIR)/%.h,$(_LIBDEPS))
 LIBOBJ=$(patsubst %,$(OBJ_DIR)/%.o,$(_LIBOBJ)) 
@@ -47,8 +48,13 @@ blockybench: $(BLOCKYBENCHOBJ)
 library: $(LIBOBJ)
 	$(CXX) -o $(BIN_DIR)/$(LIBRARY) $^ $(LDFLAGS) $(LIBLDFLAGS)
 
+.PHONY: doc
+doc: $(LIBDEPS) $(LIBOBJ)
+	doxygen
+
 .PHONY: clean
 clean:
+	rm -rf $(DOC_DIR)
 	rm -f -d $(OBJ_DIR)/*.o $(OBJ_DIR) $(BIN_DIR)/$(LIBRARY) $(BIN_DIR)/$(BLOCKYTESTEXECUTABLE) $(BIN_DIR)/$(BLOCKYBENCHEXECUTABLE) $(BIN_DIR)
 
 dirs:
