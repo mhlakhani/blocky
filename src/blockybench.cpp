@@ -41,48 +41,6 @@ size_t timeDelta(struct timeval& start, struct timeval& end)
 
 }
 
-template <typename T> T createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer);
-template <typename T> T createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer);
-
-template<> BlockyCoderMemory createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) fileName;
-    return BlockyCoderMemory::createEncoder(blockSize, blocksPerGeneration, dataLength, buffer);
-}
-
-template<> BlockyCoderMemory createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) fileName;
-    (void) buffer;
-    return BlockyCoderMemory::createDecoder(blockSize, blocksPerGeneration, dataLength);
-}
-
-template<> BlockyCoderFile createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) dataLength;
-    (void) buffer;
-    return BlockyCoderFile::createEncoder(blockSize, blocksPerGeneration, fileName);
-}
-
-template<> BlockyCoderFile createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) buffer;
-    return BlockyCoderFile::createDecoder(blockSize, blocksPerGeneration, dataLength, fileName);
-}
-
-template<> BlockyCoderMmap createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) dataLength;
-    (void) buffer;
-    return BlockyCoderMmap::createEncoder(blockSize, blocksPerGeneration, fileName);
-}
-
-template<> BlockyCoderMmap createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) buffer;
-    return BlockyCoderMmap::createDecoder(blockSize, blocksPerGeneration, dataLength, fileName);
-}
-
 template <typename B> void benchCoder(const char *name, size_t blockSize, size_t blocksPerGeneration, size_t dataLength, size_t numIterations) 
 {
 
@@ -116,8 +74,8 @@ template <typename B> void benchCoder(const char *name, size_t blockSize, size_t
             goto err;
         }
 
-        B encoder = createBlockyEncoder<B>(blockSize, blocksPerGeneration, dataLength, "test.enc", data);
-        B decoder = createBlockyDecoder<B>(blockSize, blocksPerGeneration, dataLength, "test.dec", data);
+        B encoder = Utils::createBlockyEncoder<B>(blockSize, blocksPerGeneration, dataLength, "test.enc", data);
+        B decoder = Utils::createBlockyDecoder<B>(blockSize, blocksPerGeneration, dataLength, "test.dec", data);
 
         numGenerations = encoder.getNumGenerations();
         for (size_t i = 0; i < encoder.getNumGenerations(); i++) {

@@ -11,6 +11,12 @@
 
 #include <cstdio>
 #include <cstdint>
+#include <string>
+
+#include "blockycoder.h"
+#include "blockycodermemory.h"
+#include "blockycoderfile.h"
+#include "blockycodermmap.h"
 
 namespace blocky {
 
@@ -37,6 +43,26 @@ public:
         @param[in] blockSize The block size
     */
     static void printBlock(uint8_t *block, size_t blockSize);
+
+    /*! @brief Creates a BlockyCoder of the appropriate type for encoding.
+        @param[in] blockSize The block size
+        @param[in] blocksPerGeneration The number of blocks per generation
+        @param[in] dataLength The data length
+        @param[in] fileName The file name
+        @param[in] buffer The data buffer
+        @returns A BlockyCoder of the appropriate type, usable for encoding.
+    */
+    template <typename T> static T createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer);
+
+    /*! @brief Creates a BlockyCoder of the appropriate type for decoding.
+        @param[in] blockSize The block size
+        @param[in] blocksPerGeneration The number of blocks per generation
+        @param[in] dataLength The data length
+        @param[in] fileName The file name
+        @param[in] buffer The data buffer
+        @returns A BlockyCoder of the appropriate type, usable for decoding.
+    */
+    template <typename T> static T createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer);
 
 };
 

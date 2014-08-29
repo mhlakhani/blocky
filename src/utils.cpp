@@ -43,3 +43,42 @@ void Utils::printBlock(uint8_t *block, size_t blockSize)
 
 }
 
+template<> BlockyCoderMemory Utils::createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
+{
+    (void) fileName;
+    return BlockyCoderMemory::createEncoder(blockSize, blocksPerGeneration, dataLength, buffer);
+}
+
+template<> BlockyCoderMemory Utils::createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
+{
+    (void) fileName;
+    (void) buffer;
+    return BlockyCoderMemory::createDecoder(blockSize, blocksPerGeneration, dataLength);
+}
+
+template<> BlockyCoderFile Utils::createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
+{
+    (void) dataLength;
+    (void) buffer;
+    return BlockyCoderFile::createEncoder(blockSize, blocksPerGeneration, fileName);
+}
+
+template<> BlockyCoderFile Utils::createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
+{
+    (void) buffer;
+    return BlockyCoderFile::createDecoder(blockSize, blocksPerGeneration, dataLength, fileName);
+}
+
+template<> BlockyCoderMmap Utils::createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
+{
+    (void) dataLength;
+    (void) buffer;
+    return BlockyCoderMmap::createEncoder(blockSize, blocksPerGeneration, fileName);
+}
+
+template<> BlockyCoderMmap Utils::createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
+{
+    (void) buffer;
+    return BlockyCoderMmap::createDecoder(blockSize, blocksPerGeneration, dataLength, fileName);
+}
+

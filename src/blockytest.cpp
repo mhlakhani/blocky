@@ -31,48 +31,6 @@ void freeBuffers(vector<uint8_t *> buffers)
 
 }
 
-template <typename T> T createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer);
-template <typename T> T createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer);
-
-template<> BlockyCoderMemory createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) fileName;
-    return BlockyCoderMemory::createEncoder(blockSize, blocksPerGeneration, dataLength, buffer);
-}
-
-template<> BlockyCoderMemory createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) fileName;
-    (void) buffer;
-    return BlockyCoderMemory::createDecoder(blockSize, blocksPerGeneration, dataLength);
-}
-
-template<> BlockyCoderFile createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) dataLength;
-    (void) buffer;
-    return BlockyCoderFile::createEncoder(blockSize, blocksPerGeneration, fileName);
-}
-
-template<> BlockyCoderFile createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) buffer;
-    return BlockyCoderFile::createDecoder(blockSize, blocksPerGeneration, dataLength, fileName);
-}
-
-template<> BlockyCoderMmap createBlockyEncoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) dataLength;
-    (void) buffer;
-    return BlockyCoderMmap::createEncoder(blockSize, blocksPerGeneration, fileName);
-}
-
-template<> BlockyCoderMmap createBlockyDecoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, string fileName, uint8_t *buffer)
-{
-    (void) buffer;
-    return BlockyCoderMmap::createDecoder(blockSize, blocksPerGeneration, dataLength, fileName);
-}
-
 template <typename B> bool testEndToEndBlockyCoder(size_t blockSize, size_t blocksPerGeneration, size_t dataLength, bool verifyFileOutput = true) 
 {
 
@@ -94,8 +52,8 @@ template <typename B> bool testEndToEndBlockyCoder(size_t blockSize, size_t bloc
     vector<uint8_t *> datas;
     vector<uint8_t *> coeffss;
     {
-        B encoder = createBlockyEncoder<B>(blockSize, blocksPerGeneration, dataLength, "test.enc", data);
-        B decoder = createBlockyDecoder<B>(blockSize, blocksPerGeneration, dataLength, "test.dec", data);
+        B encoder = Utils::createBlockyEncoder<B>(blockSize, blocksPerGeneration, dataLength, "test.enc", data);
+        B decoder = Utils::createBlockyDecoder<B>(blockSize, blocksPerGeneration, dataLength, "test.dec", data);
 
         for (size_t i = 0; i < encoder.getNumGenerations(); i++) {
             for (size_t j = 0; j < encoder.getNumBlocksInGeneration(i); j++) {
